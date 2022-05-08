@@ -1,5 +1,4 @@
 Sequence Number: 1
-Window: 0
 Hello, world
 Hello, world
 Hello, world
@@ -74,8 +73,8 @@ Hello, world
 Hello, world
 Hello, world
 Hello, world
-Hello, Sequence Number: 2
-Window: 0
+Hello, world
+HelloSequence Number: 3
 
 Hello, world
 Hello, world
@@ -151,8 +150,8 @@ Hello, world
 Hello, world
 Hello, world
 Hello, world
-Hello,Sequence Number: 3
-Window: 0
+Hello, world
+HellSequence Number: 5
 d
 Hello, world
 Hello, world
@@ -228,8 +227,8 @@ Hello, world
 Hello, world
 Hello, world
 Hello, world
-HelloSequence Number: 4
-Window: 0
+Hello, world
+HelSequence Number: 2
 ld
 Hello, world
 Hello, world
@@ -305,8 +304,8 @@ Hello, world
 Hello, world
 Hello, world
 Hello, world
-HellSequence Number: 5
-Window: 0
+Hello, world
+HeSequence Number: 4
 rld
 Hello, world
 Hello, world
@@ -382,4 +381,5 @@ Hello, world
 Hello, world
 Hello, world
 Hello, world
-HelEND
+Hello, world
+H
