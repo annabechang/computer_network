@@ -1,385 +1,92 @@
 Sequence Number: 1
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-HelloSequence Number: 3
+﻿________________
 
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-HellSequence Number: 5
-d
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-HelSequence Number: 2
-ld
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-HeSequence Number: 4
-rld
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-Hello, world
-H
+
+Due Date: Wednesday, May 25th, 2022 (by 11:59 PM – before midnight)
+
+Team: The project is to be done in a team of at most 2 students. You cannot discuss your code/data with other classmates (except your project partner)
+
+
+All submissions (including your code) will be checked for plagiarism against other submissions as well as the public Internet. Plagiarized submissions will be entitled to zero points.
+________________
+
+
+
+You are asked to implement a reliable data delivery service with congestion control over the unreliable UDP transport using socket API. This project must be completed in Python 3+. You will implement the following variations of this service:
+
+1. Stop and Wait Service
+2. Static Sliding Window Service
+3. Dynamic Sliding Window Service
+4. Custom Congestion Control Service (Optional)
+
+You need to implement a sender for each of the above services separately. 
+
+
+Your Sender:
+The sender should be run on localhost on a port other than the one used by the receiver. Each sent packet should contain only 1 header in the following format: 
+“Sequence Number: x\r\n” where x is the sequence number of the packet.
+You can refer to the receiver code to understand how it recognizes the sequence number. All Sequence numbers begin from 1. You need to choose optimal timeout values for Part 1, 2, and 4 below. 
+
+
+Receiver (receiver.py): 
+You are provided with the receiver code. You cannot make any modifications to the receiver code. You must run the receiver on localhost with port number 5005. 
+The receiver implements a cumulative acknowledgment. For example: 
+If the receiver receives packets with sequence number 1, 2, 4, 5  (packet 3 was lost) then it acknowledges:
+   * packet 1 with sequence number 1
+   * packet 2 with sequence number 2
+   * packet 4 with sequence number 2
+   * packet 5 with sequence number 2
+When the sender retransmits packet 3 to the receiver, the receiver acknowledges the receipt of packet 3 with acknowledgment number 5, i.e. every packet from 1 to 5 Sequence Number: 2
+l delivery of a text file of size 10 KB[a][b][c]. Set packet size at 1000 bytes.
+
+________________
+
+
+
+
+Part 2: Static Sliding Window Service (25 points)
+________________
+
+
+
+
+Implement an application-layer reliable “Static Sliding Window” data delivery service over UDP sockets using sequence numbers, acknowledgements, timeouts (fixed), and retransmissions to ensure a successful delivery of a file of size 10 KB. Implement a fixed-size (5-packet) sliding window. Set packet size at 1000 bytes.
+
+
+________________
+
+
+
+
+Part 3: Dynamic Sliding Window Service (40 points)
+________________
+
+
+
+
+In this part, implement a “Dynamic Sliding Window” service at the sender. Assume that the receive window (rwnd) at the receiver is sufficiently large. Thus, the sliding window size is determined by cwnd at the sender. Implement slow start and congestion avoidance from TCP Tahoe Protocol. Start with the initial congestion window of 1 packet. Also implement dynamic timeouts using the RTT estimation method discussed in the textbook. Set packet size at 1000 bytes[d] and transfer of a 100 KB file. You need to use an initial timeout yourself. However, after transmitting 10 packets, you need to use timeout as given by:
+
+TimeoutN = MeanRTT + 3 SDRTT
+
+
+Here, TimeoutN is the timeout of the Nth packet being transmitted and Mean and Standard Deviation (SD) are computed based on the RTT of the last 10 packets.
+
+
+________________
+
+
+
+
+Part 4: Custom Congestion Control Service (Optional) (Extra Credit)
+________________
+
+
+
+
+Implement an application-layer reliable “Stop and Wait” data delivery service over UDP sockets using sequence numbers, acknowledgements, timeouts (fixed), and retransmissions to ensure a successful delivery of a file of size 10 KB. Set packet size at 1000 bytes. Propose and implement your own congestion control with the aim of outperforming TCP Tahoe. Set packet size at 1000 bytes[e] and transfer of a 100 KB file.
+
+
+Extra Credit Details for Part 4:
+
+
+   1. If you outperform TCP Tahoe in terms of this

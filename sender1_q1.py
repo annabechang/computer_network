@@ -8,7 +8,7 @@ UDP_IP = ""
 # UDP_IP = ""
 UDP_PORT = 5005
 buf = 1000
-file_name = "test.txt"
+file_name = "project2.txt"
 n_packet = 5
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -19,7 +19,7 @@ sock.connect((UDP_IP,UDP_PORT))
 print("server is ready to send file %s" % file_name)
 
 print ("Sending Total number of packet %s ..." % str(n_packet).encode())
-sock.send(str(n_packet).encode())
+# sock.send(str(n_packet).encode())
 check = list(range(1,int(n_packet)+1))
 print("check list",check)
 mylist=[]
@@ -29,8 +29,8 @@ f = open(file_name, "r")
 data = f.read(buf)
 
 while (len(check)!=0):
-    # for i in range(1,n_packet+1):
-    for i in check:
+    for i in range(1,n_packet+1):
+    # for i in check:
         print("processing seq",i)
         l = []
         #append sequence number

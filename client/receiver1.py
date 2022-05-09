@@ -11,17 +11,16 @@ IN_PORT = 5005
 
 i = 1
 
-buf=1000
-tar_size = 3000
+buf=2048
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((UDP_IP, IN_PORT))
 
-data, addr = sock.recvfrom(buf)
+# data, addr = sock.recvfrom(buf)
     # file_name = data.strip()
     # print ("File name:", file_name)
-n_packet = data.decode()
-print("num of packet to receive",n_packet)
+n_packet = 5000
+# print("num of packet to receive",n_packet)
 
 
     # t1 = time.perf_counter_ns()
@@ -32,7 +31,7 @@ received = []
 check = list(range(1,int(n_packet)+1))
 pointer = list(range(1,int(n_packet)+1))
 
-print("check list",check)
+# print("check list",check)
 while True:
     t1 = time.perf_counter_ns()
 
@@ -42,10 +41,10 @@ while True:
     f.write(data)
     # seq = data.decode()[0]
     try:
-        seq = re.search('Sequence Number: (.*)\r\n', data.decode()).group(1)
+        seq = re.search('Sequence Number: (.*)\r\n\r\n', data.decode()).group(1)
         print("received sequence number",seq)
     except AttributeError:
-        seq = re.search('Sequence Number: (.*)\r\n', data.decode())
+        seq = re.search('Sequence Number: (.*)\r\n\r\n', data.decode())
         print("received sequence number",seq)
 
 
