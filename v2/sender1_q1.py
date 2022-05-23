@@ -9,9 +9,11 @@ UDP_IP = ""
 # UDP_IP = ""
 UDP_PORT = int(input("Enter the Port number on which your receiver is running: "))
 
-buf = 1000
+buf = 4096
 file_name = "message.txt"
-n_packet = 6
+# n_packet = 6
+p_size = 1000
+n_packet = int(os.path.getsize(file_name)/p_size)+1
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 # sock.bind(('', UDP_PORT))
@@ -27,10 +29,10 @@ print("check list",check)
 
 sent = []
 f = open(file_name, "r")
-time_table = [0]*100
-RTT = [0]*100
-rec = [0]*100
-size = [0]*100
+time_table = [0]*(n_packet+1)
+RTT = [0]*(n_packet+1)
+rec = [0]*(n_packet+1)
+size = [0]*(n_packet+1)
 ack  = 0
 data = f.read(buf)
 
