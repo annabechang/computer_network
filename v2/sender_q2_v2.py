@@ -6,15 +6,14 @@ import math
 
 
 UDP_IP = ""
-# UDP_PORT = 12001
+# UDP_PORT = 5005
 # UDP_IP = ""
 UDP_PORT = int(input("Enter the Port number on which your receiver is running: "))
-# UDP_PORT = 5005
-
 buf = 1001
 file_name = "message.txt"
-
-win_size = 5
+p_size = 1000
+n_packet = int(os.path.getsize(file_name)/p_size)*8+1
+win_size = 1
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 # sock.bind(('', UDP_PORT))
 sock.connect((UDP_IP,UDP_PORT))
@@ -22,25 +21,23 @@ sock.connect((UDP_IP,UDP_PORT))
 
 print("server is ready to send file %s" % file_name)
 
+print ("Sending Total number of packet %s ..." % str(n_packet).encode())
 # sock.send(str(n_packet).encode())
+check = list(range(1,int(n_packet)+1))
 # print("check list",check)
 
 sent = []
 received = []
 f = open(file_name, "r")
-# n_packet = 10
-p_size = 1000
-n_packet = int(os.path.getsize(file_name)/p_size)+1
-print("n_packet",n_packet)
-
 time_table = [0]*(n_packet+1)
 RTT = [0]*(n_packet+1)
 rec = [0]*(n_packet+1)
 size = [0]*(n_packet+1)
+estimatedRTT = [0]*(n_packet+1)
+DevRTT= [0]*(n_packet+1)
 data = f.read(buf)
-check = list(range(1,int(n_packet)+1))
-
-# print ("Sending Total number of packet %s ..." % str(n_packet).encode())
+ssthresh = 8
+time_out=5
 
 def get_last_non_zero_idx(my_list):
     return max([index for index, el in enumerate(my_list) if el])
@@ -71,12 +68,23 @@ def sending(seq, data):
         # while ack != i:
         print("Sequence Number of Packet Sent: ",j)
 
+def CountFrequency(my_list):
+
+    # Creating an empty dictionary
+    freq = {}
+    for item in my_list:
+        if (item in freq):
+            freq[item] += 1
+        else:
+            freq[item] = 1
+
+    max_f = max(freq.values())
+    return max_f
+
 i = 1
 while (n_packet in check):
-
-    # print("check",check)
     while i <= n_packet:
-        # print("i,npacket",i,n_packet)
+
     # for i in range(1,n_packet, win_size):
     # for i in check:
         # print("i ",i)
@@ -89,11 +97,11 @@ while (n_packet in check):
             bound = n_packet+1
 
         # print("win_size ", win_size)
+        print("Current Window: ",range(i,bound-1))
 
         for j in range(i,bound):
             # print("j", j)
             # print("i+win_size ", i+win_size)
-            print("Current Window: ",range(j,bound-1))
 
             if j >= n_packet+1:
                 break
@@ -102,20 +110,19 @@ while (n_packet in check):
             else:
                 sending(j, data)
 
-        # print(i,j,bound,win_size)
+
         buff_data = []
         ran = bound - i if bound >= bound - i>0 else 1
         # print("ran",ran)
         if ran != 0:
             for m in range(0,ran):
-                # print(m,ran)
                 try:
                     ack = sock.recv(buf)
                     buff_data.append(int(ack))
-                    # print("ack = ", ack)
-                    # print("Acknowledgment Number Received: ",buff_data)
-                    # print(buff_data[-1],n_packet)
-                    if max(buff_data)>=n_packet:
+
+                    t2 = time.time()
+                    rec[i] = t2
+                    if buff_data[-1]>=n_packet:
                         m = n_packet
                         break
                 except socket.timeout as err:
@@ -123,16 +130,21 @@ while (n_packet in check):
                     lost +=1
                     sending(ack, data)
 
+            count_duplicate = CountFrequency(buff_data)
+            if count_duplicate>=3:
+                print ('triple ack')
+                lost +=1
+                sending(ack, data)
+
         while (j not in received):
 
             try:
-
-                ack = buff_data[-1]
+                ack = max(buff_data)
                 if ack == b'END':
                     print ("full package transmitted")
                     break
                 else:
-                    sock.settimeout(5)
+                    sock.settimeout(time_out)
 
                     print("acknowledgement received:",int(ack))
 
@@ -145,27 +157,27 @@ while (n_packet in check):
                         sent.append(j)
 
                         received.append(j)
-                        # print("received",received)
 
                     if int(ack) >= j:
-                        t2 = time.time()
-                        rec[i] = t2
+
                         # print(t2)
                         # print(time_table[j])
                         val = float(t2) - float(time_table[j])
                         # print(val)
                         # print(RTT[j])
                         RTT[j] = (val)
+
                         # print("1")
                         for k in range(1,max(sent)+1):
-
 
                             if  RTT[k] == float(0):
                                 if k in sent:
                                     RTT[j] = rec[j]- time_table[k]
-                        # print("2")
-                    # print("i1",i,ack)
 
+                        estimatedRTT[1] = RTT[1]
+                        estimatedRTT[j] = 0.875*estimatedRTT[j-1]+0.125*RTT[j]
+                        DevRTT[j] = 0.75*DevRTT[j-1]+0.25*abs(RTT[j-1]-estimatedRTT[j])
+                        time_out = estimatedRTT[j]+4*DevRTT[j]
                     i=ack+1
                     # print("i2",i,ack)
                     if j >= n_packet:
@@ -181,13 +193,30 @@ while (n_packet in check):
                 sending(ack, data)
 
 
+        # print("i origin",i)
         # i ==bound
-        if (lost <4) and (lost != 0):
+        # print("i +bound",i)
+        print("win_size origin",win_size)
+        if win_size*2 <(ssthresh+1):
+            win_size+=win_size
+            print("win_size *2",win_size)
+
+        elif win_size > (ssthresh-1) or lost == 1:
             win_size+=1
+            # print("win_size +1",win_size)
+
+        elif lost == 2:
+            win_size = 1
+            ssthresh = ssthresh/2
+            # print("win_size =1",win_size)
+
+
+        # if (lost <4) and (lost != 0):
+        #     win_size+=1
         if len(check) == 0:
             break
-        else:
-            win_size == 1
+        # else:
+        #     win_size == 1
 
 
 
