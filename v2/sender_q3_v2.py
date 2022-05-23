@@ -12,7 +12,7 @@ UDP_PORT = int(input("Enter the Port number on which your receiver is running: "
 buf = 1001
 file_name = "message.txt"
 p_size = 1000
-n_packet = int(os.path.getsize(file_name)/p_size)+1
+n_packet = int(os.path.getsize(file_name)/p_size)*8+1
 win_size = 1
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 # sock.bind(('', UDP_PORT))
@@ -139,7 +139,7 @@ while (n_packet in check):
         while (j not in received):
 
             try:
-                ack = buff_data[-1]
+                ack = max(buff_data)
                 if ack == b'END':
                     print ("full package transmitted")
                     break
