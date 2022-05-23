@@ -30,7 +30,7 @@ received = []
 f = open(file_name, "r")
 # n_packet = 10
 p_size = 1000
-n_packet = int(os.path.getsize(file_name)/p_size)*8+1
+n_packet = int(os.path.getsize(file_name)/p_size)+1
 print("n_packet",n_packet)
 
 win_size = 3
@@ -196,8 +196,8 @@ size = [(float(x)) for x in size]
 RTT = [(float(x)) for x in RTT]
 # print(size)
 # print(RTT)
-avg_thu = sum(size)/sum(RTT)
-avg_del = sum(RTT)/len(RTT)
+avg_thu = sum(size)*8/sum(RTT)
+avg_del = (sum(RTT)/len(RTT))*1000
 print ("average throughput: ", avg_thu)
 print ("average delay: ", avg_del)
 print ("Performance : ", math.log(avg_thu,10)-math.log(avg_del,10))
