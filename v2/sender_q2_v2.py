@@ -14,7 +14,7 @@ UDP_PORT = int(input("Enter the Port number on which your receiver is running: "
 buf = 1001
 file_name = "message.txt"
 
-win_size = 3
+win_size = 5
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 # sock.bind(('', UDP_PORT))
 sock.connect((UDP_IP,UDP_PORT))
@@ -33,7 +33,6 @@ p_size = 1000
 n_packet = int(os.path.getsize(file_name)/p_size)+1
 print("n_packet",n_packet)
 
-win_size = 3
 time_table = [0]*(n_packet+1)
 RTT = [0]*(n_packet+1)
 rec = [0]*(n_packet+1)
