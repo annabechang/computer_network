@@ -29,10 +29,10 @@ print("check list",check)
 
 sent = []
 f = open(file_name, "r")
-time_table = [0]*100
-RTT = [0]*100
-rec = [0]*100
-size = [0]*100
+time_table = [0]*(n_packet+1)
+RTT = [0]*(n_packet+1)
+rec = [0]*(n_packet+1)
+size = [0]*(n_packet+1)
 
 data = f.read(buf)
 
@@ -41,9 +41,9 @@ def get_last_non_zero_idx(my_list):
 
 
 while (len(check)!=0):
-    # for i in range(1,n_packet+1):
+    for i in range(1,n_packet+1):
     # for i in check:
-    for i in [1,2,3,5,6,4]:
+    # for i in [1,2,3,5,6,4]:
         # print("processing seq",i)
         l = []
         #append sequence number
