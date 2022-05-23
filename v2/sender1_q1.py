@@ -12,8 +12,8 @@ UDP_PORT = int(input("Enter the Port number on which your receiver is running: "
 buf = 1001
 file_name = "message.txt"
 # n_packet = 6
-p_size = 1000
-n_packet = int(os.path.getsize(file_name)/p_size)*8+1  #byte
+p_size = 1000 # byte
+n_packet = int(os.path.getsize(file_name)/p_size)+1  #byte
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 # sock.bind(('', UDP_PORT))
@@ -121,10 +121,10 @@ while (len(check)!=0):
 size = [(float(x)) for x in size]
 RTT = [(float(x)) for x in RTT]
 
-avg_thu = sum(size)/sum(RTT)
-avg_del = sum(RTT)/len(RTT)
-print ("average throughput: ", avg_thu)
-print ("average delay: ", avg_del)
+avg_thu = sum(size)*8/sum(RTT)
+avg_del = (sum(RTT)/len(RTT))*1000
+print ("average throughput: ", avg_thu," bits per second")
+print ("average delay: ", avg_del," milliseconds")
 print ("Performance : ", math.log(avg_thu,10)-math.log(avg_del,10))
 
 
