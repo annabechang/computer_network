@@ -11,7 +11,7 @@ UDP_IP = ""
 UDP_PORT = int(input("Enter the Port number on which your receiver is running: "))
 # UDP_PORT = 5005
 
-buf = 4096
+buf = 1001
 file_name = "message.txt"
 
 win_size = 3
