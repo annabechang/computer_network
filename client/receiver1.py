@@ -47,54 +47,52 @@ while True:
         seq = re.search('Sequence Number: (.*)\r\n\r\n', data.decode())
         print("received sequence number",seq)
 
+    if seq is not None:
 
-    t2 = time.perf_counter_ns()
-    time_delta = t2 - t1
-
-    # print("seq ",seq,"i ",i)
-    if data == b'END':
-        print ("Received ", received)
-        break
-    # if int(seq) == int(pointer[0]) and len(check)!=0 and len(pointer)!=0:
-
-    if int(seq) == int(pointer[0]):
-        # print("i ",i)
-        # print("pointer ",pointer)
-        # print("pointer[0] ",pointer[0])
-
-        print("send acknowledgement seq %s to server:" %seq)
-        received.append(seq)
-        sock.sendto(seq.encode(), addr)
-        # print("received",received)
-        if int(seq) in check:
-            check.remove(int(seq))
-            # print("check list", check)
-            pointer.remove(int(seq))
-
-        i+=1
-
-        if len(pointer) == 0:
+        # print("seq ",seq,"i ",i)
+        if data == b'END':
+            print ("Received ", received)
             break
+        # if int(seq) == int(pointer[0]) and len(check)!=0 and len(pointer)!=0:
 
-    else:
+        if int(seq) == int(pointer[0]):
+            # print("i ",i)
+            # print("pointer ",pointer)
+            # print("pointer[0] ",pointer[0])
 
-        # print("pointer ",pointer)
+            print("send acknowledgement seq %s to server:" %seq)
+            received.append(seq)
+            sock.sendto(seq.encode(), addr)
+            # print("received",received)
+            if int(seq) in check:
+                check.remove(int(seq))
+                # print("check list", check)
+                pointer.remove(int(seq))
 
-        print("send acknowledgement seq to server:",int(pointer[0])-1)
-        received.append(seq)
-        sock.sendto(str(int(pointer[0])-1).encode(), addr)
-        # print("received",received)
-        if int(seq) in check:
-            check.remove(int(seq))
-            pointer.remove(int(seq))
+            i+=1
 
-            # print("check list", check)
-        if len(pointer) == 0:
-            break
+            if len(pointer) == 0:
+                break
+
+        else:
+
+            # print("pointer ",pointer)
+
+            print("send acknowledgement seq to server:",int(pointer[0])-1)
+            received.append(seq)
+            sock.sendto(str(int(pointer[0])-1).encode(), addr)
+            # print("received",received)
+            if int(seq) in check:
+                check.remove(int(seq))
+                pointer.remove(int(seq))
+
+                # print("check list", check)
+            if len(pointer) == 0:
+                break
 
 print ("File Downloaded")
 eof = "END"
 sock.sendto(eof.encode(), addr)
-# f.close()
-#
-# sock.close()
+f.close()
+
+sock.close()

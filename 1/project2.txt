@@ -1,0 +1,287 @@
+________________
+
+
+Due Date: Wednesday, May 25th, 2022 (by 11:59 PM – before midnight)
+
+Team: The project is to be done in a team of at most 2 students. You cannot discuss your code/data with other classmates (except your project partner)
+
+
+All submissions (including your code) will be checked for plagiarism against other submissions as well as the public Internet. Plagiarized submissions will be entitled to zero points.
+________________
+
+
+
+You are asked to implement a reliable data delivery service with congestion control over the unreliable UDP transport using socket API. This project must be completed in Python 3+. You will implement the following variations of this service:
+
+1. Stop and Wait Service
+2. Static Sliding Window Service
+3. Dynamic Sliding Window Service
+4. Custom Congestion Control Service (Optional)
+
+You need to implement a sender for each of the above services separately. 
+
+
+Your Sender:
+The sender should be run on localhost on a port other than the one used by the receiver. Each sent packet should contain only 1 header in the following format: 
+“Sequence Number: x\r\n” where x is the sequence number of the packet.
+You can refer to the receiver code to understand how it recognizes the sequence number. All Sequence numbers begin from 1. You need to choose optimal timeout values for Part 1, 2, and 4 below. 
+
+
+Receiver (receiver.py): 
+You are provided with the receiver code. You cannot make any modifications to the receiver code. You must run the receiver on localhost with port number 5005. 
+The receiver implements a cumulative acknowledgment. For example: 
+If the receiver receives packets with sequence number 1, 2, 4, 5  (packet 3 was lost) then it acknowledges:
+   * packet 1 with sequence number 1
+   * packet 2 with sequence number 2
+   * packet 4 with sequence number 2
+   * packet 5 with sequence number 2
+When the sender retransmits packet 3 to the receiver, the receiver acknowledges the receipt of packet 3 with acknowledgment number 5, i.e. every packet from 1 to 5 has been received.
+The cumulative acknowledgment means that the receiver receives a packet, extracts the sequence number, and sends back the acknowledgment cumulatively when the acknowledgment n is sent back, it means every packet from n, n-1. n-2,..., to 1 has been received.  
+
+
+Traffic Controller (train.sh):
+You need to run and test all the services in presence of the dynamic network conditions as enforced by “Linux Traffic Controller (TC)” implemented in the bash file train.sh. You need to explicitly impose these dynamic network conditions before running/testing your sender implementations. This can be achieved by running bash train.sh on shell with sudo access. 
+
+
+The train.sh provides the following bandwidth profile.
+  
+
+
+
+The TC used here is Linux-based and requires root permissions. Hence, you are required to perform your experiments on a Linux Operating System. If you do not have Linux, you will need to set up a Linux Virtual Machine (VM). These are the steps that you can follow to install a VM:
+
+
+   1. Download and Install Oracle’s VM VirtualBox: https://download.virtualbox.org/virtualbox/6.1.34/VirtualBox-6.1.34-150636-Win.exe
+   2. Download Ubuntu 20.04.4 LTS (Focal Fossa) (ubuntu-20.04.4-desktop-amd64.iso): https://releases.ubuntu.com/20.04/ubuntu-20.04.4-desktop-amd64.iso
+   3. Create a “New” VM Instance:
+   1. OS: Linux Debian (64-bit)
+   2. RAM: 20364 MB (~20GB)
+   3. Virtual Hard disk (49.66GB) with type: VDI and dynamically allocated storage
+   4. Provide path of (2) to load ISO file and Install the OS.
+
+
+Note: This is a configuration in which your submissions will be tested. However, you can use any other RAM and Hard Disk Sizes. Ubuntu 20.04.4 installation shall require at least 8 GBs, so make sure you configure your VM with a size larger than that.
+________________
+
+
+
+
+Part 1: Stop and Wait Service (15 points)
+________________
+
+
+
+
+Implement an application-layer reliable “Stop and Wait” data delivery service over UDP sockets using sequence numbers, acknowledgments, timeouts (fixed), and retransmissions to ensure successful delivery of a text file of size 10 KB[a][b][c]. Set packet size at 1000 bytes.
+
+________________
+
+
+
+
+Part 2: Static Sliding Window Service (25 points)
+________________
+
+
+
+
+Implement an application-layer reliable “Static Sliding Window” data delivery service over UDP sockets using sequence numbers, acknowledgements, timeouts (fixed), and retransmissions to ensure a successful delivery of a file of size 10 KB. Implement a fixed-size (5-packet) sliding window. Set packet size at 1000 bytes.
+
+
+________________
+
+
+
+
+Part 3: Dynamic Sliding Window Service (40 points)
+________________
+
+
+
+
+In this part, implement a “Dynamic Sliding Window” service at the sender. Assume that the receive window (rwnd) at the receiver is sufficiently large. Thus, the sliding window size is determined by cwnd at the sender. Implement slow start and congestion avoidance from TCP Tahoe Protocol. Start with the initial congestion window of 1 packet. Also implement dynamic timeouts using the RTT estimation method discussed in the textbook. Set packet size at 1000 bytes[d] and transfer of a 100 KB file. You need to use an initial timeout yourself. However, after transmitting 10 packets, you need to use timeout as given by:
+
+TimeoutN = MeanRTT + 3 SDRTT
+
+
+Here, TimeoutN is the timeout of the Nth packet being transmitted and Mean and Standard Deviation (SD) are computed based on the RTT of the last 10 packets.
+
+
+________________
+
+
+
+
+Part 4: Custom Congestion Control Service (Optional) (Extra Credit)
+________________
+
+
+
+
+Implement an application-layer reliable “Stop and Wait” data delivery service over UDP sockets using sequence numbers, acknowledgements, timeouts (fixed), and retransmissions to ensure a successful delivery of a file of size 10 KB. Set packet size at 1000 bytes. Propose and implement your own congestion control with the aim of outperforming TCP Tahoe. Set packet size at 1000 bytes[e] and transfer of a 100 KB file.
+
+
+Extra Credit Details for Part 4:
+
+
+   1. If you outperform TCP Tahoe in terms of this metric[f] on train.sh bandwidth profile, you will be awarded 5% weightage of the course. This is equivalent to getting 5/5 on a quiz and 5 extra credit marks will be added to your total course marks out of 100.
+   2. If you also outperform TCP Tahoe on test.sh bandwidth profile (kept secret), you will be awarded additional 5 extra credit marks. 
+   3. If your proposed congestion control outperforms TCP Tahoe and all other student submissions on test.sh bandwidth profile, you will be awarded 100% weightage of the course. This means you will be awarded 100 extra credit marks or in other words get A+ in the course and you won’t have to bother about the final exam :)
+
+
+Note: No help shall be provided for the Extra Credit part (i.e Part 4) of this project.
+
+
+Project Report Details
+
+
+In the beginning of the page, specify the following: 
+   1. Full Name of student 1 (Student ID) (Discussion Group)
+   2. Full name of student 2 (Student ID) (Discussion Group)
+   3. Name of the code files submitted
+
+
+Include Screenshot of the Terminal Window displaying the following information (10 points):
+
+
+   1. Output for each packet sent:
+
+
+<blank line>
+PKT
+Current Window: [1, 2, 3]
+Current Window Size: 3
+Sequence Number of Packet: 
+Retransmission Count: 0
+<blank line>
+
+
+   2. Output for each acknowledgement received:
+
+
+<blank line>
+ACK
+Acknowledgment Number: [1, 2, 3]
+Packet delay: xxxxxxx ms/s 
+<blank line>
+
+
+Note: If you are sending more than 10 packets, include a screenshot of PKTs and ACKs of only the first 10 packets but make sure you compute and print it for all the packets. Retransmission Count will be 0 for the packets sent for the first time. 
+
+
+Question I: Part 1, 2, and 3 (60 points - 20 points per part)
+
+For each Service implemented from Part 1 through 3, do the following:
+   1. Compute and report per-packet delay (time of acknowledgement arrival - time of packet dispatch) for each packet in the report. (5 points)
+   2. Plot the time series of packet delay. (5 points)
+   3. Compute and report instantaneous throughput[g] seen every 1 second in the report. Recall that throughput is the # of bytes successfully acknowledged by the receiver. (5 points)
+   4. Plot the time series of instantaneous throughput. (5 points)
+
+Question II: Part 4 (Optional)
+
+Describe your idea/approach using suitable text description and figures in the Project Report. Plot and include in your report the following:
+      1. Time series of per-packet delay
+      2. Time series of throughput for train.sh bandwidth profile.
+
+
+
+
+
+
+Testing Environment:
+
+
+All submissions will be tested on Python 3+ and inside a VM specified in the description.
+
+
+Late Submission Policy:
+
+No late submissions are allowed. However, if you barely miss the deadline, you can get partial points upto 24 hours. The percentage of points you will lose is given by the equation below. This will give you partial points up to 24 hours after the due date and penalizes you less if you narrowly miss the deadline.
+
+
+
+Late Submissions (later than 24 hours from the due date) will result in zero points, unless you have our prior permission or documented accommodation.
+
+
+
+
+
+
+
+
+—————————————— Best of luck —————————————
+
+
+
+
+Submission Page
+
+
+Submission Checklist: Submit the following documents on Canvas:
+
+      1. Replace placeholder text below with actual file names and names of team members before printing. Include this page as a scanned PDF after signing the plagiarism statement below. Your submission will be rejected without inclusion of this signed statement. 
+
+
+      2. Stop and Wait Service Sender Program (.py) (5points)
+part1_[name1]_[student_id1]_[name2]_[student_id2].py
+
+      3. Static Sliding Window Service Sender Program (.py) (5points)
+part2_[name1]_[student_id1]_[name2]_[student_id2].py
+
+      4. Dynamic Sliding Window Service Sender Program (.py) (5points)
+part3_[name1]_[student_id1]_[name2]_[student_id2].py
+
+      5. Custom Congestion Control Service Sender Program (.py) (optional) (5points)
+part4_[name1]_[student_id1]_[name2]_[student_id2].py
+
+      6. Project 2 Report (.pdf) (25 points)
+report_[name1]_[student_id1]_[name2]_[student_id2].py
+
+
+
+
+
+
+
+
+
+
+
+I certify that all submitted work is my own work. I have completed all of the assignments on my own without assistance from others except as indicated by appropriate citation. I have read and understand the university policy on plagiarism and academic dishonesty. I further understand that official sanctions will be imposed if there is any evidence of academic dishonesty in this work. I certify that the above statements are true.
+
+
+
+
+Team Member 1:
+
+
+
+
+______________________________      ________________________     __________________
+              Full Name (Printed)                                     Signature                                      Date 
+
+
+
+
+Team Member 2:
+
+
+
+
+______________________________      ________________________     __________________
+              Full Name (Printed)                                     Signature                                      Date 
+
+
+[a]should we provide the file? or let them test whatever file they make and include it in submission?
+[b]We should provide them i guess. But, not simple file like "Hello world". Something interesting. "We can may be provide a 10kb text file of this project description itself.
+[c]Ok
+[d]Should packet size be set to 1000 bytes for this part as well? Or students should be dynamically changing?
+[e]Should packet size be set to 1000 bytes for this part as well? Or students should be dynamically changing?
+[f]I think we discussed to evaluate the submissions based on the plot of the bandwidth profile observed by their implementation. Drop box project description asks to report this metric as: 
+
+
+log10(average throughput in bits per second)−log10(average RTT in millisecond)
+
+
+Should we ask them to report this metric for part4? If so what does it mean?
+[g]Here they only need to report the size in bytes of data acknowledged by receiver in 1 sec, right? This means that even if they sent a packet at 850th ms, whose acknowledgement would reach at 1.01 sec, they will not consider this packet in throughput computation, right?

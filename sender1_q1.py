@@ -2,14 +2,16 @@ import socket
 import time
 import sys
 import os
+import math
 
 UDP_IP = ""
 # UDP_PORT = 12001
 # UDP_IP = ""
-UDP_PORT = 5005
+UDP_PORT = int(input("Enter the Port number on which your receiver is running: "))
+
 buf = 1000
-file_name = "project2.txt"
-n_packet = 5
+file_name = "message.txt"
+n_packet = 6
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 # sock.bind(('', UDP_PORT))
@@ -22,28 +24,36 @@ print ("Sending Total number of packet %s ..." % str(n_packet).encode())
 # sock.send(str(n_packet).encode())
 check = list(range(1,int(n_packet)+1))
 print("check list",check)
-mylist=[]
+
 sent = []
 f = open(file_name, "r")
+time_table = [0]*100
+RTT = [0]*100
+rec = [0]*100
+size = [0]*100
 
 data = f.read(buf)
 
+def get_last_non_zero_idx(my_list):
+    return max([index for index, el in enumerate(my_list) if el])
+
+
 while (len(check)!=0):
-    for i in range(1,n_packet+1):
+    # for i in range(1,n_packet+1):
     # for i in check:
-        print("processing seq",i)
+    for i in [1,2,3,5,6,4]:
+        # print("processing seq",i)
         l = []
         #append sequence number
-        l.append(str("Sequence Number: ")+str(i)+str("\r\n"))
+        l.append(str(i)+str("|"))
         l.append(data)
 
         data = ''.join(l)
-        #
-        print("data header: ", data[:20])
-        # print("sending data of sequence number: ",data[0])
-        print("size of the data sent:",len(data))
-#         # while(data):.
+        size[i]=len(data)
+
         t1 = time.time()
+        time_table[i]=t1
+        # print("time_table[i]",time_table[i])
         if(sock.send(data.encode())):
             data = f.read(buf)
             time.sleep(0.02) # Give receiver a bit time to save
@@ -60,44 +70,62 @@ while (len(check)!=0):
                 else:
                     sock.settimeout(5)
 
-                    print("acknowledgement received:",int(ack),"from",str((UDP_IP,UDP_PORT)))
-                    t2 = time.time()
-                    RTT = (t2-t1)
-                    mylist.append(RTT)
+                    # print("acknowledgement received:",int(ack),"from",str((UDP_IP,UDP_PORT)))
 
+                    # print("\n")
+
+                    print("Current Window: ",i)
+                    print("Sequence Number of Packet Sent: ",i)
+                    print("Acknowledgment Number Received: ",int(ack))
+                    # print("\n")
+
+
+                    if int(i) in check:
+                        check.remove(int(i))
+                        sent.append(i)
+                    if int(ack) >= i:
                     # if int(ack) in check:
                     #     check.remove(int(ack))
                     # ack = int(ack)
-                    check.remove(int(i))
-                    print("check",check)
-                    sent.append(i)
+                        t2 = time.time()
+                        # print("t2",t2)
+                        rec[i] = t2
+                        RTT[i] = t2 - time_table[i]
+                        # print("RTT[i]",RTT[i])
+                        #
+                        # print("check",check)
+                        # sent.append(i)
+
+                        for j in range(1,max(sent)+1):
+                            if  RTT[j] == 0:
+                                # print("enter RTT post update for j ",j)
+                                if j in sent:
+                                    # print(rec[i])
+                                    # print(time_table[i])
+                                    RTT[j] = rec[i]- time_table[i]
+                                    # print(RTT[j])
+
+                    # if int(ack) > i:
+                    #
+                    #     t2 = time.time()
+                    #
+                    #     print("check",check)
+                    #     sent.append(i)
+
             except socket.timeout as err:
                 print ('caught a timeout')
 
-print ("sequence sent: ", sent)
+# print ("sequence sent: ", sent)
+size = [(float(x)) for x in size]
+RTT = [(float(x)) for x in RTT]
 
-print ("Stored RTTs are: ", mylist)
-#                     # print ('print retry')
-#                     #
-#                     # ack, clientAddress = sock.recvfrom(buf)
-#                     # print("acknowledgement received:",int(ack),"from",str(clientAddress))
-#                     #
-                # if int(ack) in check:
-                #     check.remove(int(ack))
-                # ack = int(ack)
-                # continue
-#
-#
-#                     i+=1
-#
-#                     eof = "END"
-#                     print("check list",check)
-#
-#
-#
-#
-#                     sock.sendto(eof.encode(), (UDP_IP,UDP_PORT))
-#
-#
-# f.close()
-# sock.close()
+avg_thu = sum(size)/sum(RTT)
+avg_del = sum(RTT)/len(RTT)
+print ("average throughput: ", avg_thu)
+print ("average delay: ", avg_del)
+print ("Performance : ", math.log(avg_thu,10)-math.log(avg_del,10))
+
+
+
+f.close()
+sock.close()
