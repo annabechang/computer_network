@@ -9,7 +9,7 @@ UDP_IP = ""
 # UDP_IP = ""
 UDP_PORT = int(input("Enter the Port number on which your receiver is running: "))
 
-buf = 4096
+buf = 1001
 file_name = "message.txt"
 # n_packet = 6
 p_size = 1000
