@@ -115,7 +115,7 @@ while (n_packet in check):
                     # print("ack = ", ack)
                     # print("Acknowledgment Number Received: ",buff_data)
                     # print(buff_data[-1],n_packet)
-                    if buff_data[-1]>=n_packet:
+                    if max(buff_data)>=n_packet:
                         m = n_packet
                         break
                 except socket.timeout as err:
