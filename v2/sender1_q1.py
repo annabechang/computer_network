@@ -61,7 +61,7 @@ def sending(seq, data):
 
 
         # while ack != i:
-        print("Sequence Number of Packet Sent: ",j)
+        print("Sequence Number of Packet Sent: ",i)
 
 
 # while (len(check)!=0):
