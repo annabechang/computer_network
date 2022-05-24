@@ -206,8 +206,8 @@ avg_del = (sum(RTT)/len(RTT))*1000
 # print("RTT",RTT)
 
 
-print ("average throughput: ", avg_thu)
-print ("average delay: ", avg_del)
+print ("average throughput: ", avg_thu," bits per second")
+print ("average delay: ", avg_del," milliseconds")
 print ("Performance : ", math.log(avg_thu,10)-math.log(avg_del,10))
 
 f.close()
