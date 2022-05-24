@@ -137,6 +137,9 @@ while (n_packet in check):
                     time_out = estimatedRTT[int(ack)]+4*DevRTT[int(ack)]
 
                     buff_data.append(int(ack))
+                    print("buff_data",buff_data)
+                    count_duplicate = CountFrequency(buff_data)
+
 
                     t2 = time.time()
                     rec[i] = t2
@@ -148,7 +151,6 @@ while (n_packet in check):
                     lost +=1
                     sending(ack, data)
 
-            count_duplicate = CountFrequency(buff_data)
             if count_duplicate>=3:
                 print ('triple ack')
                 lost +=1
