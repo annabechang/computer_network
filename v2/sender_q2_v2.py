@@ -28,9 +28,9 @@ print("server is ready to send file %s" % file_name)
 sent = []
 received = []
 f = open(file_name, "r")
-# n_packet = 10
+n_packet = 100
 p_size = 1000
-n_packet = int(os.path.getsize(file_name)/p_size)+1
+# n_packet = int(os.path.getsize(file_name)/p_size)+1
 print("n_packet",n_packet)
 
 win_size = 3
@@ -54,15 +54,15 @@ def sending(seq, data):
     l.append(data)
 
     data = ''.join(l)
-    size[i]=len(data)
+    size[seq]=len(data)
     # print("size[i]",len(data))
 #         #
     # print("data header: ", data[:20])
     # print("sending data of sequence number: ",data[0])
 #         # while(data):.
     t1 = time.time()
-    if time_table[i]==0:
-        time_table[i]=t1
+    if time_table[seq]==0:
+        time_table[seq]=t1
 
     if(sock.send(data.encode())):
         # data = f.read(p_size)
@@ -112,6 +112,25 @@ while (n_packet in check):
                 # print(m,ran)
                 try:
                     ack = sock.recv(buf)
+                    # print("ack",ack)
+                    # print("j",j)
+                    if int(ack) <= j:
+                        t2 = time.time()
+                        rec[int(ack)] = t2
+                        # print(t2)
+                        # print(time_table[j])
+                        val = float(t2) - float(time_table[j])
+                        # print(val)
+                        # print(RTT[j])
+                        RTT[int(ack)] = (val)
+                        # print("1")
+
+                        # print("2")
+                    # print("i1",i,ack)
+                        #
+                        # if  RTT[int(ack)] == float(0):
+                        #     if k in sent:
+                        #         RTT[j] = rec[j]- time_table[k]
                     buff_data.append(int(ack))
                     # print("ack = ", ack)
                     # print("Acknowledgment Number Received: ",buff_data)
@@ -148,24 +167,6 @@ while (n_packet in check):
                         received.append(j)
                         # print("received",received)
 
-                    if int(ack) >= j:
-                        t2 = time.time()
-                        rec[i] = t2
-                        # print(t2)
-                        # print(time_table[j])
-                        val = float(t2) - float(time_table[j])
-                        # print(val)
-                        # print(RTT[j])
-                        RTT[j] = (val)
-                        # print("1")
-                        for k in range(1,max(sent)+1):
-
-
-                            if  RTT[k] == float(0):
-                                if k in sent:
-                                    RTT[j] = rec[j]- time_table[k]
-                        # print("2")
-                    # print("i1",i,ack)
 
                     i=ack+1
                     # print("i2",i,ack)
@@ -198,6 +199,13 @@ RTT = [(float(x)) for x in RTT]
 # print(RTT)
 avg_thu = sum(size)*8/sum(RTT)
 avg_del = (sum(RTT)/len(RTT))*1000
+# print(size)
+# print("time_table",time_table)
+# print("rec",rec)
+#
+# print("RTT",RTT)
+
+
 print ("average throughput: ", avg_thu)
 print ("average delay: ", avg_del)
 print ("Performance : ", math.log(avg_thu,10)-math.log(avg_del,10))
