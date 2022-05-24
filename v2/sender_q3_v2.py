@@ -202,8 +202,8 @@ while (n_packet in check):
 
 
                 ack = max(buff_data)
-                if ack == b'END':
-                    print ("full package transmitted")
+                if int(ack) >= n_packet:
+                    print ("finished")
                     break
                 else:
 
@@ -254,10 +254,10 @@ while (n_packet in check):
         # print("i origin",i)
         # i ==bound
         # print("i +bound",i)
-        print("win_size origin",win_size)
+        # print("win_size origin",win_size)
         if win_size*2 <(ssthresh+1):
             win_size+=win_size
-            print("win_size *2",win_size)
+            # print("win_size *2",win_size)
 
         elif win_size > (ssthresh-1) or lost == 1:
             win_size+=1
@@ -271,8 +271,8 @@ while (n_packet in check):
 
         # if (lost <4) and (lost != 0):
         #     win_size+=1
-        if len(check) == 0:
-            break
+        # if len(check) == 0:
+        #     break
         # else:
         #     win_size == 1
 
