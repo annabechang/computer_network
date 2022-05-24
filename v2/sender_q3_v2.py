@@ -50,15 +50,15 @@ def sending(seq, data):
     l.append(data)
 
     data = ''.join(l)
-    size[i]=len(data)
+    size[seq]=len(data)
     # print("size[i]",len(data))
 #         #
     # print("data header: ", data[:20])
     # print("sending data of sequence number: ",data[0])
 #         # while(data):.
     t1 = time.time()
-    if time_table[i]==0:
-        time_table[i]=t1
+    if time_table[seq]==0:
+        time_table[seq]=t1
 
     if(sock.send(data.encode())):
         # data = f.read(p_size)
@@ -159,6 +159,7 @@ while (n_packet in check):
                         break
                 except socket.timeout as err:
                     print ('caught a timeout')
+                    time_out = 5
                     lost +=1
                     sending(ack, data)
                     ack = sock.recv(buf)
@@ -171,7 +172,7 @@ while (n_packet in check):
                         val = float(t2) - float(time_table[j])
                         # print(val)
                         # print(RTT[j])
-                        RTT[int(ack)] = (val)*1000
+                        RTT[int(ack)] = (val)
 
 
                         estimatedRTT[int(ack)] = 0.875*estimatedRTT[int(ack)-1]+0.125*RTT[int(ack)]
@@ -278,10 +279,14 @@ while (n_packet in check):
 
 size = [(float(x)) for x in size]
 RTT = [(float(x)) for x in RTT]
-# print(size)
-# print(RTT)
+print(size)
+print(time_table)
+
+print(rec)
+print(RTT)
+
 avg_thu = sum(size)*8/sum(RTT)
-avg_del = (sum(RTT)/len(RTT))
+avg_del = (sum(RTT)/len(RTT)*1000)
 print ("average throughput: ", avg_thu," bits per second")
 print ("average delay: ", avg_del," milliseconds")
 print ("Performance : ", math.log(avg_thu,10)-math.log(avg_del,10))
