@@ -161,6 +161,29 @@ while (n_packet in check):
                     print ('caught a timeout')
                     lost +=1
                     sending(ack, data)
+                    ack = sock.recv(buf)
+
+                    if int(ack) <= j:
+                        t2 = time.time()
+                        rec[int(ack)] = t2
+                        # print(t2)
+                        # print(time_table[j])
+                        val = float(t2) - float(time_table[j])
+                        # print(val)
+                        # print(RTT[j])
+                        RTT[int(ack)] = (val)
+                    estimatedRTT[int(ack)] = 0.875*estimatedRTT[int(ack)-1]+0.125*RTT[int(ack)]
+                    print("index int(ack)",int(ack))
+                    print("estimatedRTT",estimatedRTT[int(ack)])
+                    DevRTT[int(ack)] = 0.75*DevRTT[int(ack)-1]+0.25*abs(RTT[int(ack)-1]-estimatedRTT[int(ack)])
+                    print("DevRTT",DevRTT[int(ack)])
+                    time_out = estimatedRTT[int(ack)]+4*DevRTT[int(ack)]
+                    print("time_out",time_out)
+
+                    buff_data.append(int(ack))
+                    # print("buff_data",buff_data)
+                    count_duplicate = CountFrequency(buff_data)
+
                     # print("3")
             if count_duplicate>=3:
                 # print("4")
