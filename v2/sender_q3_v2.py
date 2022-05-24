@@ -112,7 +112,8 @@ while (n_packet in check):
 
 
         buff_data = []
-        ran = ((bound - i) if (bound - i> 0) else 1)
+        comp  = bound - i
+        ran = ((comp) if (comp> 0) else 1)
         print("ran",ran)
         if ran != 0:
             for m in range(0,ran):
@@ -133,8 +134,11 @@ while (n_packet in check):
                         # print(RTT[j])
                         RTT[int(ack)] = (val)
                     estimatedRTT[int(ack)] = 0.875*estimatedRTT[int(ack)-1]+0.125*RTT[int(ack)]
+                    print(estimatedRTT[int(ack)])
                     DevRTT[int(ack)] = 0.75*DevRTT[int(ack)-1]+0.25*abs(RTT[int(ack)-1]-estimatedRTT[int(ack)])
+                    print(DevRTT[int(ack)])
                     time_out = estimatedRTT[int(ack)]+4*DevRTT[int(ack)]
+                    print(timeout)
 
                     buff_data.append(int(ack))
                     # print("buff_data",buff_data)
