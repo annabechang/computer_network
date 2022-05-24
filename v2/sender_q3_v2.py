@@ -38,7 +38,7 @@ DevRTT= [0]*(n_packet+1)
 data = f.read(buf)
 ssthresh = 8
 time_out=5
-
+ack = 0
 def get_last_non_zero_idx(my_list):
     return max([index for index, el in enumerate(my_list) if el])
 
@@ -82,7 +82,7 @@ def CountFrequency(my_list):
     return max_f
 
 i = 1
-while (n_packet in check):
+while (ack <n_packet):
     while i <= n_packet:
 
     # for i in range(1,n_packet, win_size):
@@ -196,7 +196,7 @@ while (n_packet in check):
                 sending(int(max(buff_data)), data)
 
 
-        while (j not in received):
+        # while (j not in received):
 
             try:
 
