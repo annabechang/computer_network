@@ -138,7 +138,7 @@ while (n_packet in check):
                     DevRTT[int(ack)] = 0.75*DevRTT[int(ack)-1]+0.25*abs(RTT[int(ack)-1]-estimatedRTT[int(ack)])
                     print(DevRTT[int(ack)])
                     time_out = estimatedRTT[int(ack)]+4*DevRTT[int(ack)]
-                    print(timeout)
+                    print(time_out)
 
                     buff_data.append(int(ack))
                     # print("buff_data",buff_data)
