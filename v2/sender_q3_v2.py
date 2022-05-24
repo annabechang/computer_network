@@ -117,12 +117,30 @@ while (n_packet in check):
         if ran != 0:
             for m in range(0,ran):
                 try:
+                    estimatedRTT[1] = RTT[1]
+
+                    sock.settimeout(time_out)
+
                     ack = sock.recv(buf)
+
+                    if int(ack) <= j:
+                        t2 = time.time()
+                        rec[int(ack)] = t2
+                        # print(t2)
+                        # print(time_table[j])
+                        val = float(t2) - float(time_table[j])
+                        # print(val)
+                        # print(RTT[j])
+                        RTT[int(ack)] = (val)
+                    estimatedRTT[int(ack)] = 0.875*estimatedRTT[int(ack)-1]+0.125*RTT[int(ack)]
+                    DevRTT[int(ack)] = 0.75*DevRTT[int(ack)-1]+0.25*abs(RTT[int(ack)-1]-estimatedRTT[int(ack)])
+                    time_out = estimatedRTT[int(ack)]+4*DevRTT[int(ack)]
+
                     buff_data.append(int(ack))
 
                     t2 = time.time()
                     rec[i] = t2
-                    if buff_data[-1]>=n_packet:
+                    if max(buff_data)>=n_packet:
                         m = n_packet
                         break
                 except socket.timeout as err:
@@ -134,7 +152,7 @@ while (n_packet in check):
             if count_duplicate>=3:
                 print ('triple ack')
                 lost +=1
-                sending(ack, data)
+                sending(int(max(buff_data)), data)
 
         while (j not in received):
 
@@ -144,7 +162,6 @@ while (n_packet in check):
                     print ("full package transmitted")
                     break
                 else:
-                    sock.settimeout(time_out)
 
                     print("acknowledgement received:",int(ack))
 
@@ -157,27 +174,24 @@ while (n_packet in check):
                         sent.append(j)
 
                         received.append(j)
+                    #
+                    # if int(ack) >= j:
+                    #
+                    #     # print(t2)
+                    #     # print(time_table[j])
+                    #     val = float(t2) - float(time_table[j])
+                    #     # print(val)
+                    #     # print(RTT[j])
+                    #     RTT[j] = (val)
+                    #
+                    #     # print("1")
+                    #     for k in range(1,max(sent)+1):
+                    #
+                    #         if  RTT[k] == float(0):
+                    #             if k in sent:
+                    #                 RTT[j] = rec[j]- time_table[k]
 
-                    if int(ack) >= j:
 
-                        # print(t2)
-                        # print(time_table[j])
-                        val = float(t2) - float(time_table[j])
-                        # print(val)
-                        # print(RTT[j])
-                        RTT[j] = (val)
-
-                        # print("1")
-                        for k in range(1,max(sent)+1):
-
-                            if  RTT[k] == float(0):
-                                if k in sent:
-                                    RTT[j] = rec[j]- time_table[k]
-
-                        estimatedRTT[1] = RTT[1]
-                        estimatedRTT[j] = 0.875*estimatedRTT[j-1]+0.125*RTT[j]
-                        DevRTT[j] = 0.75*DevRTT[j-1]+0.25*abs(RTT[j-1]-estimatedRTT[j])
-                        time_out = estimatedRTT[j]+4*DevRTT[j]
                     i=ack+1
                     # print("i2",i,ack)
                     if j >= n_packet:
@@ -226,8 +240,8 @@ RTT = [(float(x)) for x in RTT]
 # print(RTT)
 avg_thu = sum(size)*8/sum(RTT)
 avg_del = (sum(RTT)/len(RTT))*1000
-print ("average throughput: ", avg_thu)
-print ("average delay: ", avg_del)
+print ("average throughput: ", avg_thu," bits per second")
+print ("average delay: ", avg_del," milliseconds")
 print ("Performance : ", math.log(avg_thu,10)-math.log(avg_del,10))
 
 f.close()
