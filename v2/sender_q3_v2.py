@@ -171,7 +171,9 @@ while (n_packet in check):
                         val = float(t2) - float(time_table[j])
                         # print(val)
                         # print(RTT[j])
-                        RTT[int(ack)] = (val)
+                        RTT[int(ack)] = (val)*1000
+
+
                         estimatedRTT[int(ack)] = 0.875*estimatedRTT[int(ack)-1]+0.125*RTT[int(ack)]
                         print("index int(ack)",int(ack))
                         print("estimatedRTT",estimatedRTT[int(ack)])
@@ -279,7 +281,7 @@ RTT = [(float(x)) for x in RTT]
 # print(size)
 # print(RTT)
 avg_thu = sum(size)*8/sum(RTT)
-avg_del = (sum(RTT)/len(RTT))*1000
+avg_del = (sum(RTT)/len(RTT))
 print ("average throughput: ", avg_thu," bits per second")
 print ("average delay: ", avg_del," milliseconds")
 print ("Performance : ", math.log(avg_thu,10)-math.log(avg_del,10))
