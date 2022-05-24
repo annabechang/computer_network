@@ -112,8 +112,8 @@ while (n_packet in check):
 
 
         buff_data = []
-        ran = bound - i if bound >= bound - i>0 else 1
-        # print("ran",ran)
+        ran = ((bound - i) if (bound - i> 0) else 1)
+        print("ran",ran)
         if ran != 0:
             for m in range(0,ran):
                 try:
@@ -137,7 +137,7 @@ while (n_packet in check):
                     time_out = estimatedRTT[int(ack)]+4*DevRTT[int(ack)]
 
                     buff_data.append(int(ack))
-                    print("buff_data",buff_data)
+                    # print("buff_data",buff_data)
                     count_duplicate = CountFrequency(buff_data)
 
 
@@ -159,6 +159,7 @@ while (n_packet in check):
         while (j not in received):
 
             try:
+
                 ack = max(buff_data)
                 if ack == b'END':
                     print ("full package transmitted")
