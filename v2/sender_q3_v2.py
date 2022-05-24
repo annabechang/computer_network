@@ -113,7 +113,11 @@ while (n_packet in check):
 
         buff_data = []
         comp  = bound - i
-        ran = ((comp) if (comp> 0) else 1)
+        # ran = ((comp) if (comp> 0) else 1)
+        if comp> 0:
+            ran = comp
+        else:
+            ran = 1
         print("ran",ran)
         if ran != 0:
             for m in range(0,ran):
@@ -134,11 +138,12 @@ while (n_packet in check):
                         # print(RTT[j])
                         RTT[int(ack)] = (val)
                     estimatedRTT[int(ack)] = 0.875*estimatedRTT[int(ack)-1]+0.125*RTT[int(ack)]
-                    print(estimatedRTT[int(ack)])
+                    print("index int(ack)",int(ack))
+                    print("estimatedRTT",estimatedRTT[int(ack)])
                     DevRTT[int(ack)] = 0.75*DevRTT[int(ack)-1]+0.25*abs(RTT[int(ack)-1]-estimatedRTT[int(ack)])
-                    print(DevRTT[int(ack)])
+                    print("DevRTT",DevRTT[int(ack)])
                     time_out = estimatedRTT[int(ack)]+4*DevRTT[int(ack)]
-                    print(time_out)
+                    print("time_out",time_out)
 
                     buff_data.append(int(ack))
                     # print("buff_data",buff_data)
@@ -147,22 +152,27 @@ while (n_packet in check):
 
                     t2 = time.time()
                     rec[i] = t2
+                    # print("1")
                     if max(buff_data)>=n_packet:
+                        # print("2")
                         m = n_packet
                         break
                 except socket.timeout as err:
                     print ('caught a timeout')
                     lost +=1
                     sending(ack, data)
-
+                    # print("3")
             if count_duplicate>=3:
+                # print("4")
                 print ('triple ack')
                 lost +=1
                 sending(int(max(buff_data)), data)
 
+
         while (j not in received):
 
             try:
+
 
                 ack = max(buff_data)
                 if ack == b'END':
