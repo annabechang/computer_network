@@ -159,7 +159,7 @@ while (n_packet in check):
                         break
                 except socket.timeout as err:
                     print ('caught a timeout')
-                    time_out = 5
+                    sock.settimeout(5)
                     lost +=1
                     sending(ack, data)
                     ack = sock.recv(buf)
