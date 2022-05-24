@@ -138,13 +138,13 @@ while (ack <n_packet):
                         # print(val)
                         # print(RTT[j])
                         RTT[int(ack)] = (val)
-                    estimatedRTT[int(ack)] = 0.875*estimatedRTT[int(ack)-1]+0.125*RTT[int(ack)]
-                    print("index int(ack)",int(ack))
-                    print("estimatedRTT",estimatedRTT[int(ack)])
-                    DevRTT[int(ack)] = 0.75*DevRTT[int(ack)-1]+0.25*abs(RTT[int(ack)-1]-estimatedRTT[int(ack)])
-                    print("DevRTT",DevRTT[int(ack)])
-                    time_out = estimatedRTT[int(ack)]+4*DevRTT[int(ack)]
-                    print("time_out",time_out)
+                        estimatedRTT[int(ack)] = 0.875*estimatedRTT[int(ack)-1]+0.125*RTT[int(ack)]
+                        print("index int(ack)",int(ack))
+                        print("estimatedRTT",estimatedRTT[int(ack)])
+                        DevRTT[int(ack)] = 0.75*DevRTT[int(ack)-1]+0.25*abs(RTT[int(ack)-1]-estimatedRTT[int(ack)])
+                        print("DevRTT",DevRTT[int(ack)])
+                        time_out = estimatedRTT[int(ack)]+4*DevRTT[int(ack)]
+                        print("time_out",time_out)
 
                     buff_data.append(int(ack))
                     # print("buff_data",buff_data)
@@ -160,29 +160,29 @@ while (ack <n_packet):
                         break
                 except socket.timeout as err:
                     print ('caught a timeout')
-                    sock.settimeout(5)
+                    sock.settimeout(time_out)
                     lost +=1
-                    # sending(int(max(buff_data)), data)
-                    # ack = sock.recv(buf)
+                    sending(int(ack)+1, data)
+                    ack = sock.recv(buf)
 
                     # if int(ack) <= j:
-                    #     t2 = time.time()
-                    #     rec[int(ack)] = t2
-                    #     # print(t2)
-                    #     # print(time_table[j])
-                    #     val = float(t2) - float(time_table[j])
-                    #     # print(val)
-                    #     # print(RTT[j])
-                    #     RTT[int(ack)] = (val)
+                    t2 = time.time()
+                    rec[int(ack)] = t2
+                    # print(t2)
+                    # print(time_table[j])
+                    val = float(t2) - float(time_table[j])
+                    # print(val)
+                    # print(RTT[j])
+                    RTT[int(ack)] = (val)
                     #
                     #
-                    #     estimatedRTT[int(ack)] = 0.875*estimatedRTT[int(ack)-1]+0.125*RTT[int(ack)]
-                    #     print("index int(ack)",int(ack))
-                    #     print("estimatedRTT",estimatedRTT[int(ack)])
-                    #     DevRTT[int(ack)] = 0.75*DevRTT[int(ack)-1]+0.25*abs(RTT[int(ack)-1]-estimatedRTT[int(ack)])
-                    #     print("DevRTT",DevRTT[int(ack)])
-                    #     time_out = estimatedRTT[int(ack)]+4*DevRTT[int(ack)]
-                    #     print("time_out",time_out)
+                    estimatedRTT[int(ack)] = 0.875*estimatedRTT[int(ack)-1]+0.125*RTT[int(ack)]
+                    print("index int(ack)",int(ack))
+                    print("estimatedRTT",estimatedRTT[int(ack)])
+                    DevRTT[int(ack)] = 0.75*DevRTT[int(ack)-1]+0.25*abs(RTT[int(ack)-1]-estimatedRTT[int(ack)])
+                    print("DevRTT",DevRTT[int(ack)])
+                    time_out = estimatedRTT[int(ack)]+4*DevRTT[int(ack)]
+                    print("time_out",time_out)
                     #
                     # buff_data.append(int(ack))
                     # # print("buff_data",buff_data)
