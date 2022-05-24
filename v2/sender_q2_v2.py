@@ -28,9 +28,9 @@ print("server is ready to send file %s" % file_name)
 sent = []
 received = []
 f = open(file_name, "r")
-n_packet = 100
+# n_packet = 100
 p_size = 1000
-# n_packet = int(os.path.getsize(file_name)/p_size)+1
+n_packet = int(os.path.getsize(file_name)/p_size)+1
 print("n_packet",n_packet)
 
 win_size = 3
