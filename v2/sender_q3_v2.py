@@ -124,7 +124,8 @@ while (n_packet in check):
                 try:
                     estimatedRTT[1] = RTT[1]
 
-                    sock.settimeout(time_out)
+                    # sock.settimeout(time_out)
+                    sock.settimeout(5)
 
                     ack = sock.recv(buf)
 
@@ -161,31 +162,31 @@ while (n_packet in check):
                     print ('caught a timeout')
                     sock.settimeout(5)
                     lost +=1
-                    sending(int(max(buff_data)), data)
-                    ack = sock.recv(buf)
+                    # sending(int(max(buff_data)), data)
+                    # ack = sock.recv(buf)
 
-                    if int(ack) <= j:
-                        t2 = time.time()
-                        rec[int(ack)] = t2
-                        # print(t2)
-                        # print(time_table[j])
-                        val = float(t2) - float(time_table[j])
-                        # print(val)
-                        # print(RTT[j])
-                        RTT[int(ack)] = (val)
-
-
-                        estimatedRTT[int(ack)] = 0.875*estimatedRTT[int(ack)-1]+0.125*RTT[int(ack)]
-                        print("index int(ack)",int(ack))
-                        print("estimatedRTT",estimatedRTT[int(ack)])
-                        DevRTT[int(ack)] = 0.75*DevRTT[int(ack)-1]+0.25*abs(RTT[int(ack)-1]-estimatedRTT[int(ack)])
-                        print("DevRTT",DevRTT[int(ack)])
-                        time_out = estimatedRTT[int(ack)]+4*DevRTT[int(ack)]
-                        print("time_out",time_out)
-
-                    buff_data.append(int(ack))
-                    # print("buff_data",buff_data)
-                    count_duplicate = CountFrequency(buff_data)
+                    # if int(ack) <= j:
+                    #     t2 = time.time()
+                    #     rec[int(ack)] = t2
+                    #     # print(t2)
+                    #     # print(time_table[j])
+                    #     val = float(t2) - float(time_table[j])
+                    #     # print(val)
+                    #     # print(RTT[j])
+                    #     RTT[int(ack)] = (val)
+                    #
+                    #
+                    #     estimatedRTT[int(ack)] = 0.875*estimatedRTT[int(ack)-1]+0.125*RTT[int(ack)]
+                    #     print("index int(ack)",int(ack))
+                    #     print("estimatedRTT",estimatedRTT[int(ack)])
+                    #     DevRTT[int(ack)] = 0.75*DevRTT[int(ack)-1]+0.25*abs(RTT[int(ack)-1]-estimatedRTT[int(ack)])
+                    #     print("DevRTT",DevRTT[int(ack)])
+                    #     time_out = estimatedRTT[int(ack)]+4*DevRTT[int(ack)]
+                    #     print("time_out",time_out)
+                    #
+                    # buff_data.append(int(ack))
+                    # # print("buff_data",buff_data)
+                    # count_duplicate = CountFrequency(buff_data)
 
                     # print("3")
             if count_duplicate>=3:
@@ -279,11 +280,11 @@ while (n_packet in check):
 
 size = [(float(x)) for x in size]
 RTT = [(float(x)) for x in RTT]
-print(size)
-print(time_table)
-
-print(rec)
-print(RTT)
+# print(size)
+# print(time_table)
+#
+# print(rec)
+# print(RTT)
 
 avg_thu = sum(size)*8/sum(RTT)
 avg_del = (sum(RTT)/len(RTT)*1000)
