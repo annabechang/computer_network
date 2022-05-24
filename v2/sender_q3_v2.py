@@ -161,7 +161,7 @@ while (n_packet in check):
                     print ('caught a timeout')
                     sock.settimeout(5)
                     lost +=1
-                    sending(ack, data)
+                    sending(int(max(buff_data)), data)
                     ack = sock.recv(buf)
 
                     if int(ack) <= j:
