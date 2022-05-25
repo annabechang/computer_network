@@ -131,7 +131,7 @@ while WND_START < NUM_PKTS+1:
 		print("Current Window: ", range(WND_START, WND_END))
 		if SENT[curr_seq] == 0:
 			send_packet(curr_seq, PACKETS[curr_seq], 0)
-			pring("sent seq")
+			print("sent seq")
 		if curr_seq != WND_END -1:
 			continue
 
