@@ -94,8 +94,10 @@ def receive_acknowledgements(sockt,window_start):
 			ack = sockt.recv(BUFFER_SIZE)
 			print("Acknowledgement Received:", int(ack))
 			NUM_ACKNOWLEDGEMENTS[int(ack)] += 1
-			ACKNOWLEDGED_SEQUENCES[int(ack)] = 1
+
 			for i in range(window_start,int(ack)):
+				ACKNOWLEDGED_SEQUENCES[i] == 1
+
 				if PER_PKT_RTT[i] == 0:
 					compute_metrics(int(ack),i)
 		except socket.timeout as err:
