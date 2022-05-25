@@ -91,10 +91,10 @@ def receive_acknowledgements(sockt,window_start):
 	while current_timeouts < consecutive_receive_timeouts:
 		try:
 			sockt.setblocking(0)
-			sockt.settimeout(0.05)
+			sockt.settimeout(0.02)
 
 			ack = sockt.recv(BUFFER_SIZE)
-			sockt.setblocking(1)
+			# sockt.setblocking(1)
 
 			print("Acknowledgement Received:", int(ack))
 			NUM_ACKNOWLEDGEMENTS[int(ack)] += 1
@@ -132,7 +132,7 @@ def compute_metrics(ack,unack_seq):
 
 	PER_PKT_THROUGHPUT[(unack_seq)] = TRANSFERRED_BYTES[(unack_seq)]*8/PER_PKT_RTT[unack_seq]
 
-	print("PER_PKT_RTT RECV_TIMEorded")
+	# print("PER_PKT_RTT RECV_TIMEorded")
 
 PACKETS = generate_packets()
 
@@ -140,24 +140,24 @@ PACKETS = generate_packets()
 #
 while WND_START < NUM_PKTS+1:
 	for curr_seq in range(WND_START, WND_END):
-		print("Current Window: ",(WND_START, WND_END), curr_seq)
+		# print("Current Window: ",(WND_START, WND_END), curr_seq)
 		if SENT[curr_seq] == 0:
 			send_packet(curr_seq, PACKETS[curr_seq], 0)
-			print("sent seq",curr_seq)
+			# print("sent seq",curr_seq)
 		if curr_seq != WND_END -1:
 			continue
 
-		print("outside for loop", curr_seq)
+		# print("outside for loop", curr_seq)
 
 		for curr_seq in range(WND_START, WND_END):
-			print("for curr_seq in range(WND_START, WND_END)",WND_START, WND_END, curr_seq)
+			# print("for curr_seq in range(WND_START, WND_END)",WND_START, WND_END, curr_seq)
 			receive_time = time.time()
 
 			if receive_time < (SEND_TIME[curr_seq] + 5):
 
 				if ACKNOWLEDGED_SEQUENCES[curr_seq] == 0:
 					receive_acknowledgements(sock,WND_START)
-					print("ACKNOWLEDGED_SEQUENCES",ACKNOWLEDGED_SEQUENCES[WND_START:WND_END])
+					# print("ACKNOWLEDGED_SEQUENCES",ACKNOWLEDGED_SEQUENCES[WND_START:WND_END])
 
 					window_shift_count = 0
 					for i in range(WND_START, WND_END):
@@ -167,13 +167,13 @@ while WND_START < NUM_PKTS+1:
 							break
 					if window_shift_count == 0:
 						continue
-					print("WND_START ",WND_START)
+					# print("WND_START ",WND_START)
 					WND_START = WND_START + window_shift_count
-					print("WND_END ",WND_END )
-					print("WND_START ",WND_START)
+					# print("WND_END ",WND_END )
+					# print("WND_START ",WND_START)
 					curr_seq = WND_END
 					WND_END = WND_END + window_shift_count
-					print("WND_END ",WND_END )
+					# print("WND_END ",WND_END )
 
 					if WND_END>NUM_PKTS+1:
 
@@ -186,7 +186,7 @@ while WND_START < NUM_PKTS+1:
 
 				lost+=1
 
-		print("window",WND_START,WND_END)
+		# print("window",WND_START,WND_END)
 
 TRANSFERRED_BYTES = [(float(x)) for x in TRANSFERRED_BYTES]
 PER_PKT_RTT = [(float(x)) for x in PER_PKT_RTT]
