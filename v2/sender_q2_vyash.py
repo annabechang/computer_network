@@ -128,17 +128,17 @@ PACKETS = generate_packets()
 #
 while WND_START < NUM_PKTS+1:
 	for curr_seq in range(WND_START, WND_END):
-		print("Current Window: ", range(WND_START, WND_END))
+		print("Current Window: ",(WND_START, WND_END), curr_seq)
 		if SENT[curr_seq] == 0:
 			send_packet(curr_seq, PACKETS[curr_seq], 0)
 			print("sent seq",curr_seq)
 		if curr_seq != WND_END -1:
 			continue
 
-		print("outside for loop")
+		print("outside for loop", curr_seq)
 
 		for curr_seq in range(WND_START, WND_END):
-			print("for curr_seq in range(WND_START, WND_END)",WND_START, WND_END)
+			print("for curr_seq in range(WND_START, WND_END)",WND_START, WND_END, curr_seq)
 			receive_time = time.time()
 
 			if receive_time < (SEND_TIME[curr_seq] + 5):
