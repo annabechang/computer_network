@@ -147,14 +147,14 @@ while WND_START < NUM_PKTS+1:
 					receive_acknowledgements(sock,WND_START)
 					print("ACKNOWLEDGED_SEQUENCES[curr_seq] == 0",sock,WND_START)
 
-
-
 					window_shift_count = 0
 					for i in range(WND_START, WND_END):
 						if ACKNOWLEDGED_SEQUENCES[i] == 1:
 							window_shift_count += 1
 						else:
 							break
+					if window_shift_count == 0:
+						continue
 					print("WND_START ",WND_START)
 					WND_START = WND_START + window_shift_count
 					print("WND_END ",WND_END )
