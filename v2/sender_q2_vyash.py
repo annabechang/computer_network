@@ -83,6 +83,7 @@ def receive_acknowledgements(sockt,window_start):
 	global ACKNOWLEDGED_SEQUENCES;
 	global PER_PKT_RTT;
 	global BUFFER_SIZE;
+	global lost;
 
 	consecutive_receive_timeouts = 3
 	current_timeouts = 0
@@ -97,9 +98,15 @@ def receive_acknowledgements(sockt,window_start):
 
 			print("Acknowledgement Received:", int(ack))
 			NUM_ACKNOWLEDGEMENTS[int(ack)] += 1
+			if NUM_ACKNOWLEDGEMENTS[int(ack)] == 4:
+				send_packet(curr_seq, PACKETS[curr_seq], 1)
+				NUM_ACKNOWLEDGEMENTS[curr_seq]=0
+
+				lost+=1
+				return
 			# print("win_start",window_start)
-			for i in range(window_start,int(ack)):
-				ACKNOWLEDGED_SEQUENCES[i] == 1
+			for i in range(window_start,int(ack)+1):
+				ACKNOWLEDGED_SEQUENCES[i] = 1
 
 				if PER_PKT_RTT[i] == 0:
 					compute_metrics(int(ack),i)
@@ -175,6 +182,8 @@ while WND_START < NUM_PKTS+1:
 					break
 			else:
 				send_packet(curr_seq, PACKETS[curr_seq], 1)
+				NUM_ACKNOWLEDGEMENTS[curr_seq]=0
+
 				lost+=1
 
 		print("window",WND_START,WND_END)
