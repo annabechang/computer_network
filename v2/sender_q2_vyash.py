@@ -131,7 +131,7 @@ while WND_START < NUM_PKTS+1:
 		print("Current Window: ", range(WND_START, WND_END))
 		if SENT[curr_seq] == 0:
 			send_packet(curr_seq, PACKETS[curr_seq], 0)
-
+			pring("sent seq")
 		if curr_seq != WND_END -1:
 			continue
 
@@ -143,6 +143,7 @@ while WND_START < NUM_PKTS+1:
 			if receive_time < (SEND_TIME[curr_seq] + 5):
 				if ACKNOWLEDGED_SEQUENCES[curr_seq] == 0:
 					receive_acknowledgements(sock,WND_START)
+					pring("ACKNOWLEDGED_SEQUENCES[curr_seq] == 0")
 
 
 
