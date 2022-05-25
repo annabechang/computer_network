@@ -79,13 +79,18 @@ def send_packet(seq, data, retransmission_flag):
 
 
 def receive_acknowledgements(sockt,window_start):
+	global NUM_ACKNOWLEDGEMENTS;
+	global ACKNOWLEDGED_SEQUENCES;
+	global PER_PKT_RTT;
+	global BUFFER_SIZE;
+
 	consecutive_receive_timeouts = 3
 	current_timeouts = 0
 
 	while current_timeouts < consecutive_receive_timeouts:
 		try:
 			sockt.setblocking(0)
-			sockt.settimeout(0.01)
+			sockt.settimeout(0.05)
 			ack = sockt.recv(BUFFER_SIZE)
 			print("Acknowledgement Received:", int(ack))
 			NUM_ACKNOWLEDGEMENTS[int(ack)] += 1
@@ -97,6 +102,12 @@ def receive_acknowledgements(sockt,window_start):
 			current_timeouts += 1
 
 def compute_metrics(ack,unack_seq):
+	global SEND_TIME;
+	global RECV_TIME;
+	global PER_PKT_RTT;
+	global PER_PKT_THROUGHPUT;
+	global TRANSFERRED_BYTES;
+
 	t2 = time.time()
 	RECV_TIME[(unack_seq)] = t2
 	# print(t2)
