@@ -145,7 +145,7 @@ while WND_START < NUM_PKTS+1:
 
 				if ACKNOWLEDGED_SEQUENCES[curr_seq] == 0:
 					receive_acknowledgements(sock,WND_START)
-					print("ACKNOWLEDGED_SEQUENCES[curr_seq] == 0",sock,WND_START)
+					print("ACKNOWLEDGED_SEQUENCES",ACKNOWLEDGED_SEQUENCES[WND_START:WND_END])
 
 					window_shift_count = 0
 					for i in range(WND_START, WND_END):
