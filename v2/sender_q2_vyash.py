@@ -90,8 +90,10 @@ def receive_acknowledgements(sockt,window_start):
 	while current_timeouts < consecutive_receive_timeouts:
 		try:
 			sockt.setblocking(0)
-			sockt.settimeout(1)
 			ack = sockt.recv(BUFFER_SIZE)
+			sockt.setblocking(1)
+			sockt.settimeout(0.05)
+
 			print("Acknowledgement Received:", int(ack))
 			NUM_ACKNOWLEDGEMENTS[int(ack)] += 1
 			# print("win_start",window_start)
