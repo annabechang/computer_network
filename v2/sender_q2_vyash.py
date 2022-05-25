@@ -135,12 +135,14 @@ while WND_START < NUM_PKTS+1:
 		if curr_seq != WND_END -1:
 			continue
 
+		print("outside for loop")
 
 		for curr_seq in range(WND_START, WND_END):
-
+			print("for curr_seq in range(WND_START, WND_END)",WND_START, WND_END)
 			receive_time = time.time()
 
 			if receive_time < (SEND_TIME[curr_seq] + 5):
+
 				if ACKNOWLEDGED_SEQUENCES[curr_seq] == 0:
 					receive_acknowledgements(sock,WND_START)
 					print("ACKNOWLEDGED_SEQUENCES[curr_seq] == 0",sock,WND_START)
