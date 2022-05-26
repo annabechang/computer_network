@@ -40,7 +40,7 @@ RECEIVED = [0]*(NUM_PKTS+1)
 WND_START, WND_END = 1, 2
 
 
-
+triple = 0
 
 def generate_packets():
 	global FILENAME;
@@ -86,7 +86,7 @@ def receive_acknowledgements(sockt,window_start):
 	global BUFFER_SIZE;
 	global lost;
 	global ssthresh;
-
+	global triple;
 	consecutive_receive_timeouts = 3
 	current_timeouts = 0
 
@@ -101,11 +101,10 @@ def receive_acknowledgements(sockt,window_start):
 			print("Acknowledgement Received:", int(ack))
 			NUM_ACKNOWLEDGEMENTS[int(ack)] += 1
 			if NUM_ACKNOWLEDGEMENTS[int(ack)] == 4:
-
+				triple=1
 				send_packet((int(ack)+1), PACKETS[(int(ack)+1)], 1)
 				NUM_ACKNOWLEDGEMENTS[int(ack)]=0
-				WINDOW_SIZE	=1
-				ssthresh = ssthresh/2
+
 				lost+=1
 				return
 			# print("win_start",window_start)
@@ -155,6 +154,7 @@ PACKETS = generate_packets()
 #
 while WND_START < NUM_PKTS+1:
 	lost=0
+	triple = 0
 	print("Current Window: ",(WND_START, WND_END))
 
 	for curr_seq in range(WND_START, WND_END):
@@ -184,11 +184,12 @@ while WND_START < NUM_PKTS+1:
 							break
 					if window_shift_count == 0:
 						continue
-
+					if triple == 1:
+						WINDOW_SIZE = 1
+						ssthresh = ssthresh/2
 					if WINDOW_SIZE*2 <ssthresh+1:
 						WINDOW_SIZE+=WINDOW_SIZE
-					if NUM_ACKNOWLEDGEMENTS[int(ack)] == 4:
-						WINDOW_SIZE = 1
+
 					elif WINDOW_SIZE > (ssthresh-1) or lost == 1:
 						WINDOW_SIZE +=1
 					elif lost == 2:
