@@ -184,9 +184,8 @@ while WND_START < NUM_PKTS+1:
 							break
 					if window_shift_count == 0:
 						continue
-					if WINDOW_SIZE*2 <ssthresh+1:
-						WINDOW_SIZE+=WINDOW_SIZE
-						print("WINDOW_SIZE*2",WINDOW_SIZE)
+
+
 					if triple == 1 or lost == 2:
 						WINDOW_SIZE = 1
 						ssthresh = ssthresh/2
@@ -195,9 +194,14 @@ while WND_START < NUM_PKTS+1:
 
 
 					else:
+
+						if WINDOW_SIZE*2 <ssthresh+1:
+							WINDOW_SIZE+=WINDOW_SIZE
+							print("WINDOW_SIZE*2",WINDOW_SIZE)
 					# if (WINDOW_SIZE != 1) and (WINDOW_SIZE > (ssthresh-1) or lost == 1):
-						WINDOW_SIZE +=1
-						print("WINDOW_SIZE > (ssthresh-1)")
+						else:
+							WINDOW_SIZE +=1
+							print("WINDOW_SIZE > (ssthresh-1)")
 
 
 					# print("WND_START ",WND_START)
