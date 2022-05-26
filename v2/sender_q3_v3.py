@@ -103,8 +103,10 @@ def receive_acknowledgements(sockt,window_start):
 
 				send_packet((int(ack)+1), PACKETS[(int(ack)+1)], 1)
 				NUM_ACKNOWLEDGEMENTS[int(ack)]=0
-
+				WINDOW_SIZE	=1
+				ssthresh = ssthresh/2
 				lost+=1
+				1,[2,3],[4567],[8,9,10,11,12,13,14,15]
 				return
 			# print("win_start",window_start)
 			for i in range(window_start,int(ack)+1):
