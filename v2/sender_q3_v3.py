@@ -150,10 +150,10 @@ def compute_metrics(ack,unack_seq):
 
 PACKETS = generate_packets()
 
+lost=0
 
 #
 while WND_START < NUM_PKTS+1:
-	lost=0
 	triple = 0
 	print("Current Window: ",(WND_START, WND_END-1))
 
@@ -189,14 +189,14 @@ while WND_START < NUM_PKTS+1:
 					if triple == 1 or lost !=0:
 						WINDOW_SIZE = 1
 						ssthresh = int(WINDOW_SIZE/2)
-
+						lost = 0
 						print("triple or lost")
 
 
 					else:
 
 						if WINDOW_SIZE*2 <ssthresh+1:
-							WINDOW_SIZE+=WINDOW_SIZE
+							WINDOW_SIZE+=1
 							print("WINDOW_SIZE*2",WINDOW_SIZE)
 					# if (WINDOW_SIZE != 1) and (WINDOW_SIZE > (ssthresh-1) or lost == 1):
 						else:
