@@ -85,6 +85,7 @@ def receive_acknowledgements(sockt,window_start):
 	global PER_PKT_RTT;
 	global BUFFER_SIZE;
 	global lost;
+	global ssthresh;
 
 	consecutive_receive_timeouts = 3
 	current_timeouts = 0
