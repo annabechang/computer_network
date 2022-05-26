@@ -193,10 +193,10 @@ while WND_START < NUM_PKTS+1:
 
 						print("triple")
 					
-					else:
-						if WINDOW_SIZE > (ssthresh-1) or lost == 1:
-							WINDOW_SIZE +=1
-							print("WINDOW_SIZE > (ssthresh-1)")
+
+					if (WINDOW_SIZE != 1) and (WINDOW_SIZE > (ssthresh-1) or lost == 1):
+						WINDOW_SIZE +=1
+						print("WINDOW_SIZE > (ssthresh-1)")
 
 
 					# print("WND_START ",WND_START)
