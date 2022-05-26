@@ -3,7 +3,7 @@ import time
 import sys
 import os
 import math
-
+print("test")
 
 UDP_IP = ""
 # UDP_PORT = 5005
