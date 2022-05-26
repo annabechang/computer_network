@@ -107,7 +107,6 @@ def receive_acknowledgements(sockt,window_start):
 				WINDOW_SIZE	=1
 				ssthresh = ssthresh/2
 				lost+=1
-				1,[2,3],[4567],[8,9,10,11,12,13,14,15]
 				return
 			# print("win_start",window_start)
 			for i in range(window_start,int(ack)+1):
@@ -188,6 +187,8 @@ while WND_START < NUM_PKTS+1:
 
 					if WINDOW_SIZE*2 <ssthresh+1:
 						WINDOW_SIZE+=WINDOW_SIZE
+					if NUM_ACKNOWLEDGEMENTS[int(ack)] == 4:
+						WINDOW_SIZE = 1
 					elif WINDOW_SIZE > (ssthresh-1) or lost == 1:
 						WINDOW_SIZE +=1
 					elif lost == 2:
