@@ -17,10 +17,10 @@ RECV_TIME = [0]*(NUM_PKTS+1)
 TRANSFERRED_BYTES = [0]*(NUM_PKTS+1)
 PER_PKT_RTT = [0]*(NUM_PKTS+1)
 PER_PKT_THROUGHPUT = [0]*(NUM_PKTS+1)
-
+estimatedRTT= [0]*(NUM_PKTS+1)
 ACKNOWLEDGED_SEQUENCES = [0]*(NUM_PKTS+1)
 NUM_ACKNOWLEDGEMENTS = [0]*(NUM_PKTS+1)
-
+DevRTT= [0]*(NUM_PKTS+1)
 ssthresh = 8
 
 UDP_IP = ""
@@ -31,7 +31,7 @@ sock.connect((UDP_IP,UDP_PORT))
 print("Sender is ready to send the file %s" % FILENAME)
 print("Number of Packets to send:", NUM_PKTS)
 
-
+time_out = 5
 
 
 SENT = [0]*(NUM_PKTS+1)
@@ -112,6 +112,7 @@ def receive_acknowledgements(sockt,window_start):
 
 				if PER_PKT_RTT[i] == 0:
 					compute_metrics(int(ack),i)
+
 		except socket.timeout as err:
 			current_timeouts += 1
 
@@ -121,6 +122,9 @@ def compute_metrics(ack,unack_seq):
 	global PER_PKT_RTT;
 	global PER_PKT_THROUGHPUT;
 	global TRANSFERRED_BYTES;
+	global estimatedRTT;
+	global DevRTT;
+	global time_out;
 
 	t2 = time.time()
 	RECV_TIME[(unack_seq)] = t2
@@ -129,11 +133,18 @@ def compute_metrics(ack,unack_seq):
 	val = float(t2) - float(SEND_TIME[unack_seq])
 	# print(val)
 	# print(PER_PKT_RTT[j])
+	estimatedRTT[1] = PER_PKT_RTT[1]
 	PER_PKT_RTT[(unack_seq)] = (val)
-
 
 	PER_PKT_THROUGHPUT[(unack_seq)] = TRANSFERRED_BYTES[(unack_seq)]*8/PER_PKT_RTT[unack_seq]
 
+	estimatedRTT[unack_seq] = 0.875*estimatedRTT[unack_seq-1]+0.125*PER_PKT_RTT[unack_seq]
+	# print("index int(ack)",unack_seq)
+	# print("estimatedRTT",estimatedRTT[unack_seq])
+	DevRTT[unack_seq] = 0.75*DevRTT[unack_seq-1]+0.25*abs(PER_PKT_RTT[unack_seq-1]-estimatedRTT[unack_seq])
+	# print("DevRTT",DevRTT[unack_seq])
+	time_out = estimatedRTT[unack_seq]+4*DevRTT[unack_seq]
+	# print("time_out",time_out)
 	# print("PER_PKT_RTT RECV_TIMEorded")
 
 PACKETS = generate_packets()
@@ -142,8 +153,9 @@ PACKETS = generate_packets()
 #
 while WND_START < NUM_PKTS+1:
 	lost=0
+	print("Current Window: ",(WND_START, WND_END))
+
 	for curr_seq in range(WND_START, WND_END):
-		# print("Current Window: ",(WND_START, WND_END), curr_seq)
 		if SENT[curr_seq] == 0:
 			send_packet(curr_seq, PACKETS[curr_seq], 0)
 			# print("sent seq",curr_seq)
@@ -156,7 +168,7 @@ while WND_START < NUM_PKTS+1:
 			# print("for curr_seq in range(WND_START, WND_END)",WND_START, WND_END, curr_seq)
 			receive_time = time.time()
 
-			if receive_time < (SEND_TIME[curr_seq] + 5):
+			if receive_time < (SEND_TIME[curr_seq] + time_out):
 
 				if ACKNOWLEDGED_SEQUENCES[curr_seq] == 0:
 					receive_acknowledgements(sock,WND_START)
@@ -179,16 +191,16 @@ while WND_START < NUM_PKTS+1:
 						WINDOW_SIZE=1
 						ssthresh = ssthresh/2
 
-					print("WND_START ",WND_START)
-					print("window_shift_count ",window_shift_count)
+					# print("WND_START ",WND_START)
+					# print("window_shift_count ",window_shift_count)
 
 					WND_START = WND_START + window_shift_count
-					print("WND_END ",WND_END )
-					print("WND_START ",WND_START)
-					print("WINDOW_SIZE",WINDOW_SIZE)
+					# print("WND_END ",WND_END )
+					# print("WND_START ",WND_START)
+					# print("WINDOW_SIZE",WINDOW_SIZE)
 					curr_seq = WND_END
 					WND_END = WND_END + WINDOW_SIZE
-					print("WND_END ",WND_END )
+					# print("WND_END ",WND_END )
 
 					if WND_END>NUM_PKTS+1:
 
