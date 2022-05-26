@@ -105,7 +105,7 @@ def receive_acknowledgements(sockt,window_start):
 				send_packet((int(ack)+1), PACKETS[(int(ack)+1)], 1)
 				NUM_ACKNOWLEDGEMENTS[int(ack)]=0
 
-				lost+=1
+				lost=1
 				return
 			# print("win_start",window_start)
 			for i in range(window_start,int(ack)+1):
@@ -186,11 +186,11 @@ while WND_START < NUM_PKTS+1:
 						continue
 
 
-					if triple == 1 or lost == 2:
+					if triple == 1 or lost !=0:
 						WINDOW_SIZE = 1
-						ssthresh = ssthresh/2
+						ssthresh = int(WINDOW_SIZE/2)
 
-						print("triple")
+						print("triple or lost")
 
 
 					else:
@@ -224,7 +224,7 @@ while WND_START < NUM_PKTS+1:
 				send_packet(curr_seq, PACKETS[curr_seq], 1)
 				NUM_ACKNOWLEDGEMENTS[curr_seq]=0
 
-				lost+=1
+				lost=1
 
 		# print("window",WND_START,WND_END)
 
