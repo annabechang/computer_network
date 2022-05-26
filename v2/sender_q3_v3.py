@@ -184,11 +184,12 @@ while WND_START < NUM_PKTS+1:
 							break
 					if window_shift_count == 0:
 						continue
+					if WINDOW_SIZE*2 <ssthresh+1:
+						WINDOW_SIZE+=WINDOW_SIZE
 					if triple == 1:
 						WINDOW_SIZE = 1
 						ssthresh = ssthresh/2
-					if WINDOW_SIZE*2 <ssthresh+1:
-						WINDOW_SIZE+=WINDOW_SIZE
+
 
 					elif WINDOW_SIZE > (ssthresh-1) or lost == 1:
 						WINDOW_SIZE +=1
