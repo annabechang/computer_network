@@ -129,6 +129,12 @@ while (ack <n_packet):
 
                     ack = sock.recv(buf)
 
+
+
+                    buff_data.append(int(ack))
+                    # print("buff_data",buff_data)
+                    count_duplicate = CountFrequency(buff_data)
+
                     if int(ack) <= j:
                         t2 = time.time()
                         rec[int(ack)] = t2
@@ -145,14 +151,8 @@ while (ack <n_packet):
                         # print("DevRTT",DevRTT[int(ack)])
                         time_out = estimatedRTT[int(ack)]+4*DevRTT[int(ack)]
                         # print("time_out",time_out)
-
-                    buff_data.append(int(ack))
-                    # print("buff_data",buff_data)
-                    count_duplicate = CountFrequency(buff_data)
-
-
-                    t2 = time.time()
-                    rec[i] = t2
+                    # t2 = time.time()
+                    # rec[i] = t2
                     # print("1")
                     if max(buff_data)>=n_packet:
                         # print("2")
@@ -191,7 +191,7 @@ while (ack <n_packet):
                     # print("3")
             if count_duplicate>=3:
                 # print("4")
-                print ('triple ack',int(max(buff_data)))
+                print ('triple ack',(buff_data))
                 lost +=1
                 sending(int(max(buff_data)), data)
                 t2 = time.time()
