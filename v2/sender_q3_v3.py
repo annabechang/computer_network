@@ -155,7 +155,7 @@ PACKETS = generate_packets()
 while WND_START < NUM_PKTS+1:
 	lost=0
 	triple = 0
-	print("Current Window: ",(WND_START, WND_END))
+	print("Current Window: ",(WND_START, WND_END-1))
 
 	for curr_seq in range(WND_START, WND_END):
 		if SENT[curr_seq] == 0:
@@ -192,9 +192,10 @@ while WND_START < NUM_PKTS+1:
 						ssthresh = ssthresh/2
 
 						print("triple")
-					
 
-					if (WINDOW_SIZE != 1) and (WINDOW_SIZE > (ssthresh-1) or lost == 1):
+
+					else:
+					# if (WINDOW_SIZE != 1) and (WINDOW_SIZE > (ssthresh-1) or lost == 1):
 						WINDOW_SIZE +=1
 						print("WINDOW_SIZE > (ssthresh-1)")
 
