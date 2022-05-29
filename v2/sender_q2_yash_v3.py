@@ -99,13 +99,13 @@ def receive_acknowledgements(sockt,window_start):
 			print("Acknowledgement Received:", int(ack))
 			NUM_ACKNOWLEDGEMENTS[int(ack)] += 1
 			if NUM_ACKNOWLEDGEMENTS[int(ack)] == 4:
-<<<<<<< Updated upstream
-				send_packet(curr_seq, PACKETS[curr_seq], 1)
-				NUM_ACKNOWLEDGEMENTS[curr_seq]=0
-=======
+# <<<<<<< Updated upstream
+# 				send_packet(curr_seq, PACKETS[curr_seq], 1)
+# 				NUM_ACKNOWLEDGEMENTS[curr_seq]=0
+# =======
 				send_packet((int(ack)+1), PACKETS[(int(ack)+1)], 1)
 				NUM_ACKNOWLEDGEMENTS[int(ack)]=0
->>>>>>> Stashed changes
+# >>>>>>> Stashed changes
 
 				lost+=1
 				return
